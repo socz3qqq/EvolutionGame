@@ -5,5 +5,4 @@ public class Genes {
     //sugeruje stworzenie klasy ze stałymi
     private int currentGene = 0;
     private int[] genes;
-
 }
