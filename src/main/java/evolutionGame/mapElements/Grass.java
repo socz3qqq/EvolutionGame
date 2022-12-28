@@ -10,4 +10,5 @@ public class Grass {
     public Vector2D getPosition() {
         return position;
     }
+    
 }
