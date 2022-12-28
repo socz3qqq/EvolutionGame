@@ -1,7 +1,7 @@
 package evolutionGame.mapElements;
 
 public class Vector2D {
-    final int x, y;
+    private int x, y;
 
     public Vector2D(int a, int b){
         this.x = a;
@@ -73,4 +73,7 @@ public class Vector2D {
     public int getY() {
         return y;
     }
+
+    public void setX(int newX) {this.x = newX;}
+    public void setY(int newY) {this.y = newY;}
 }

@@ -1,9 +1,11 @@
 package evolutionGame.mapElements;
 
+import evolutionGame.mapTypes.AbstractWorldMap;
+
 public class Animal {
     private MapDirections currentDirection;
     private Vector2D position;
-    private IMapElement map;
+    private AbstractWorldMap map;
 
     private int energy;
 
@@ -11,7 +13,7 @@ public class Animal {
 
     private int numberOfChild;
 
-    public Animal(IMapElement map, Vector2D initialPosition){
+    public Animal(AbstractWorldMap map, Vector2D initialPosition){
         this.map = map;
         this.position = initialPosition;
     }
