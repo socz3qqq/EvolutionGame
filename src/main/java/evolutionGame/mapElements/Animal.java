@@ -1,6 +1,7 @@
 package evolutionGame.mapElements;
 
 import evolutionGame.mapTypes.AbstractWorldMap;
+import evolutionGame.mapTypes.IWorldMap;
 
 import java.util.Random;
 
@@ -18,6 +19,10 @@ public class Animal {
     public Animal(AbstractWorldMap map, Vector2D initialPosition){
         this.map = map;
         this.position = initialPosition;
+    }
+    public Animal(AbstractWorldMap map){
+        this.map = map;
+        this.position = new Vector2D(rand.nextInt(map.getMapWidth()), rand.nextInt(map.getMapHeight()));
     }
 
     public MapDirections getCurrentDirection(){
