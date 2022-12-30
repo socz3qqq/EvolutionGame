@@ -6,12 +6,13 @@ import evolutionGame.mapTypes.AbstractWorldMap;
 import evolutionGame.mapTypes.Globe;
 import evolutionGame.mapTypes.IWorldMap;
 
+import java.util.List;
+
 public class SimulationEngine {
     private final AbstractWorldMap map;
     private int energyFromGrass;
     private int dailyGrassIncrease;
     private int initialAnimalEnergy;
-
     private int minimalStuffedEnergy;
     private double energyUsedForReproduction;
     private int minChildMutation;
@@ -48,9 +49,9 @@ public class SimulationEngine {
 
     }
     public void run(){
-        removeDeadAnimals();
-        moveAllAnimals();
-        eatGrass();
+        this.map.removeDeadAnimals();
+        this.map.moveAllAnimals(geneExecution);
+        this.map.eatGrass();
         animalReproduction();
         grassGrow();
     };
@@ -62,7 +63,7 @@ public class SimulationEngine {
 
     private void placeAllAnimals(int animalCount){
         for (int i = 0; i < animalCount; i++) {
-            Animal animal = new Animal(this.map);
+            Animal animal = new Animal(this.map, genotypeLength);
             this.map.placeAnimal(animal);
         }
     };
@@ -71,4 +72,5 @@ public class SimulationEngine {
             this.map.placeGrass(this.grassGrowType);
         }
     };
+
 }

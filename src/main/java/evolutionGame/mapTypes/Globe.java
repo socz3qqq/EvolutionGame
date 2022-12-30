@@ -5,7 +5,7 @@ import evolutionGame.mapElements.Vector2D;
 
 import java.util.Random;
 
-public class Globe extends AbstractWorldMap{    private Class animal;
+public class Globe extends AbstractWorldMap{
     private final Random rand = new Random();
     public Globe(int width, int height){
         this.mapWidth = width;
