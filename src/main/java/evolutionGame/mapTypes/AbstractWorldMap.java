@@ -7,25 +7,16 @@ import evolutionGame.mapElements.Vector2D;
 import java.util.HashMap;
 import java.util.Random;
 
-public class AbstractWorldMap implements IWorldMap{
+abstract public class AbstractWorldMap implements IWorldMap{
+    protected final Random rand = new Random();
     protected int mapWidth;
     protected int mapHeight;
     protected Vector2D upperBound;
     protected Vector2D lowerBound;
-    protected int grassCount;
-    protected int energyFromGrass;
-    protected int dailyGrassIncrease;
-    protected int animalCount;
-    protected final Random rand = new Random();
-    protected int initialAnimalEnergy;
-
-    //    protected int minimalStuffedEnergy;
-//    protected double energyUsedForReproduction;
-//    protected int minChildMutation;
-//    protected int maxChildMutation;
     protected HashMap<Vector2D, Animal> animals = new HashMap<>();
     protected HashMap<Vector2D, Grass> grass = new HashMap<>();
 
+    public AbstractWorldMap(){}
     @Override
     public void placeAnimal(Animal animal) {
         this.animals.put(animal.getPosition(), animal);
@@ -46,11 +37,6 @@ public class AbstractWorldMap implements IWorldMap{
     @Override
     public boolean isOccupied(Vector2D position) {
         return this.animals.containsKey(position) || this.grass.containsKey(position);
-    }
-
-    @Override
-     public Vector2D adjustMoveCoordinates(Animal animal, Vector2D position) {
-        return position;
     }
     public boolean isOccupiedByGrass(Vector2D position){
         return this.grass.containsKey(position);
