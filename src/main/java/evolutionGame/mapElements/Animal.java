@@ -27,6 +27,10 @@ public class Animal {
         this.position = new Vector2D(rand.nextInt(map.getMapWidth()), rand.nextInt(map.getMapHeight()));
         this.genotype = new Genes(genotypeLength);
     }
+    public Animal(AbstractWorldMap map){
+        this.map = map;
+        this.position = new Vector2D(rand.nextInt(map.getMapWidth()), rand.nextInt(map.getMapHeight()));
+    }
 
     public MapDirections getCurrentDirection(){
         return currentDirection;
@@ -51,6 +55,12 @@ public class Animal {
     }
     public int getEnergy(){
         return this.energy;
+    }
+    public void increaseEnergy(int energy){
+        this.energy += energy;
+    }
+    public void decreaseEnergy(int energy){
+        this.energy -= energy;
     }
     public void increaseEnergy(int energy){
         this.energy += energy;

@@ -13,6 +13,7 @@ public class SimulationEngine {
     private int energyFromGrass;
     private int dailyGrassIncrease;
     private int initialAnimalEnergy;
+
     private int minimalStuffedEnergy;
     private double energyUsedForReproduction;
     private int minChildMutation;
@@ -52,6 +53,7 @@ public class SimulationEngine {
         this.map.removeDeadAnimals();
         this.map.moveAllAnimals(geneExecution);
         this.map.eatGrass();
+        
         animalReproduction();
         grassGrow();
     };
@@ -64,6 +66,7 @@ public class SimulationEngine {
     private void placeAllAnimals(int animalCount){
         for (int i = 0; i < animalCount; i++) {
             Animal animal = new Animal(this.map, genotypeLength);
+
             this.map.placeAnimal(animal);
         }
     };
@@ -72,5 +75,4 @@ public class SimulationEngine {
             this.map.placeGrass(this.grassGrowType);
         }
     };
-
 }

@@ -6,19 +6,23 @@ import evolutionGame.mapElements.Vector2D;
 
 import java.util.*;
 
+
 abstract public class AbstractWorldMap implements IWorldMap{
     protected final Random rand = new Random();
     protected int mapWidth;
     protected int mapHeight;
     protected Vector2D upperBound;
     protected Vector2D lowerBound;
+
 //    protected List<Animal> animals;
     private List<Animal> deadAnimals;
     protected HashMap<Vector2D, List<Animal>> animals = new HashMap<>();
     protected HashMap<Vector2D, Grass> grass = new HashMap<>();
 
+    public AbstractWorldMap(){}
     @Override
     public void placeAnimal(Animal animal) {
+
         if(animals.containsKey(animal.getPosition())){
             List<Animal> animalsAtPosition = this.animals.get(animal.getPosition());
             animalsAtPosition.add(animal);
