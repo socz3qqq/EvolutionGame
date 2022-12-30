@@ -3,11 +3,18 @@ package evolutionGame.mapElements;
 import java.util.Random;
 
 public class Genes {
-    private int numberOfGenes = 0;
-    //sugeruje stworzenie klasy ze stałymi
+    private int numberOfGenes;
     private int currentGeneIndex = 0;
     private int[] genes;
     private Random rand = new Random();
+
+    public Genes(int howManyGenes){
+        numberOfGenes = rand.nextInt(8);
+        genes = new int[numberOfGenes];
+        for (int i = 0; i < numberOfGenes; i++){
+            genes[i] = rand.nextInt(8);
+        }
+    }
 
     public int getCurrentGene(String moveVariant){
         int currentGene;

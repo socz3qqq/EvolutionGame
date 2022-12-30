@@ -10,15 +10,22 @@ public class Animal {
     private Vector2D position;
     private AbstractWorldMap map;
     private int energy;
+    private int age;
 
     private Genes genotype;
 
     private int numberOfChild;
     private Random rand = new Random();
 
-    public Animal(AbstractWorldMap map, Vector2D initialPosition){
+    public Animal(AbstractWorldMap map, int genotypeLength, Vector2D initialPosition){
         this.map = map;
         this.position = initialPosition;
+        this.genotype = new Genes(genotypeLength);
+    }
+    public Animal(AbstractWorldMap map, int genotypeLength){
+        this.map = map;
+        this.position = new Vector2D(rand.nextInt(map.getMapWidth()), rand.nextInt(map.getMapHeight()));
+        this.genotype = new Genes(genotypeLength);
     }
     public Animal(AbstractWorldMap map){
         this.map = map;
@@ -43,8 +50,17 @@ public class Animal {
 
         Vector2D displacementVector = this.currentDirection.toUnitVector();
         Vector2D newPosition = this.position.add(displacementVector);
-        this.position = this.map.adjustMoveCoordinates(this, newPosition);
         //w zależności od rodzaju mapy ruch sie zmienia
+        this.position = this.map.adjustMoveCoordinates(this, newPosition);
+    }
+    public int getEnergy(){
+        return this.energy;
+    }
+    public void increaseEnergy(int energy){
+        this.energy += energy;
+    }
+    public void decreaseEnergy(int energy){
+        this.energy -= energy;
     }
     public void increaseEnergy(int energy){
         this.energy += energy;
