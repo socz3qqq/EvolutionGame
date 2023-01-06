@@ -4,8 +4,7 @@ import evolutionGame.mapElements.Animal;
 import evolutionGame.mapElements.Vector2D;
 
 public interface IWorldMap {
+    public Object objectAt(Vector2D position);
     void placeAnimal(Animal animal);
-    void placeGrass(String grassType);
     boolean isOccupied(Vector2D position);
-    public Vector2D adjustMoveCoordinates(Animal animal, Vector2D position);
 }

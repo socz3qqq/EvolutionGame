@@ -1,10 +1,17 @@
 package evolutionGame;
 
-import evolutionGame.mapTypes.Globe;
 import evolutionGame.simulation.SimulationEngine;
+
+
 
 public class Game {
     public static void main(String[] args){
-        SimulationEngine engine = new SimulationEngine(new Globe(5, 5), "Equator", "Random", "Predestination", 3, 4);
+            SimulationEngine engine = new SimulationEngine(15, 15, "Globe",
+                    10, 5, 6, 10, 20,
+                    10, 5, 2, 4, "Random",
+                    10, "Predestination", "Equators");
+            Thread engineThread = new Thread(engine);
+            engineThread.start();
+
     }
 }

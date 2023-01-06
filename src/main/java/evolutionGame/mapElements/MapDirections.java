@@ -20,7 +20,7 @@ public enum MapDirections {
             case SOUTH -> "S";
             case SOUTHWEST -> "SW";
             case WEST -> "W";
-            case NORTHWEST -> "Nw";
+            case NORTHWEST -> "NW";
         };
     }
 
