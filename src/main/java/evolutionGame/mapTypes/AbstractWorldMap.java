@@ -161,6 +161,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
             List<Animal> competitors = new ArrayList<>(List.<Animal>copyOf(entry.getValue()));
             competitors.sort(new animalChallengerComparator());
             for (int i = 0; i < competitors.size() - 1; i+=2) {
+                System.out.println("Rodzice: " + Arrays.toString(competitors.get(i).getGenotype().getGenes().toArray()) + Arrays.toString(competitors.get(i+1).getGenotype().getGenes().toArray()));
                 Animal childAnimal = competitors.get(i).copulate(competitors.get(i+1), currentDayOfSimulation);
                 if(childAnimal == null) break;
                 children.add(childAnimal);
@@ -214,7 +215,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public static void printAnimalInformation(Animal animal){
         System.out.println("pozycja: " + animal.getPosition());
         System.out.println("energia: " + animal.getEnergy());
-        System.out.println("geny: " + Arrays.toString(animal.getGenotype().getGenes()));
+        System.out.println("geny: " + animal.getGenotype().getGenes());
     }
     public int getAnimalCount(){
         return this.animalCount;
