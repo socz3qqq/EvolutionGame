@@ -82,7 +82,7 @@ public class SimulationEngine implements  Runnable{
 
     private void placeAllAnimals(int animalCount){
         for (int i = 0; i < animalCount; i++) {
-            Animal animal = new Animal(this.map, genotypeLength, this.initialAnimalEnergy,
+            Animal animal = new Animal(this.map, this.genotypeLength, this.initialAnimalEnergy,
                     minimalStuffedEnergy, energyUsedForReproduction,
                     minChildMutation, maxChildMutation);
             this.map.placeAnimal(animal);

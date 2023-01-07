@@ -3,6 +3,7 @@ package evolutionGame.mapElements;
 import evolutionGame.mapTypes.AbstractWorldMap;
 import evolutionGame.mapTypes.IWorldMap;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -48,10 +49,15 @@ public class Animal {
     }
 
     public Animal copulate(Animal other, int currentDayOfSimulation){
-        if (this.energy >= minimalStuffedEnergy && other.energy >= minimalStuffedEnergy) {
+        if (this.energy >= minimalStuffedEnergy && other.getEnergy() >= minimalStuffedEnergy) {
             Animal child = new Animal(this.position, this.map, currentDayOfSimulation);
             this.numberOfChildren += 1;
             other.numberOfChildren += 1;
+
+            int numberOfThisGenes = (int) ((float)(((float)this.energy/((float)this.energy + (float)other.getEnergy()))*(float)genotypeLength)); //ile genow bierze od this
+            int numberOfOtherGenes = genotypeLength - numberOfThisGenes; //ile genow bierze od other
+            System.out.println("geny pierwszego: " + numberOfThisGenes + "  geny drugiego: " + numberOfOtherGenes + "genotypelength" + (float)((this.energy/(this.energy + other.getEnergy()))*genotypeLength));
+
             this.decreaseEnergy(this.energyUsedForReproduction);
             other.decreaseEnergy(this.energyUsedForReproduction);
             child.minimalStuffedEnergy = this.minimalStuffedEnergy;
@@ -59,34 +65,36 @@ public class Animal {
             child.minChildMutation = this.minChildMutation;
             child.maxChildMutation = this.maxChildMutation;
             child.energy = 2 * this.energyUsedForReproduction;
+            child.genotypeLength = this.genotypeLength;
 
-            int numberOfThisGenes = (int) (this.energy/(this.energy + other.energy))*genotypeLength; //ile genow bierze od this
-            int numberOfOtherGenes = genotypeLength - numberOfThisGenes; //ile genow bierze od other
-            int[] childGenome = new int[genotypeLength]; //geny dziecka
-            int[] thisGenome = this.genotype.getGenes(); //geny this
-            int[] otherGenome = other.genotype.getGenes(); //geny other
-            int randomness = rand.nextInt(1);
+
+            ArrayList<Integer> childGenome = new ArrayList<>(); //geny dziecka
+            ArrayList<Integer> thisGenome = this.genotype.getGenes(); //geny this
+            ArrayList<Integer> otherGenome = other.genotype.getGenes(); //geny other
+            int randomness = rand.nextInt(2);
+            System.out.println("Długość genomu dizecka: " + genotypeLength);
+
             switch (randomness){
                 //case 1: dziecko bierze od this z lewej strony
                 case 1 -> {
                     for (int i=0; i < numberOfThisGenes; i++){
-                        childGenome[i] = thisGenome[i];
+                        childGenome.add(i, thisGenome.get(i));
                     }
-                    for (int i = genotypeLength-1; i>= numberOfThisGenes; i--){
-                        childGenome[i] = otherGenome[i];
+                    for (int i = numberOfThisGenes; i < genotypeLength; i++){
+                        childGenome.add(i, otherGenome.get(i));
                     }
                 }
                 //case 0: dziecko bierze od this z prawej strony
                 case 0 -> {
-                    for (int i = genotypeLength - 1; i>=numberOfOtherGenes; i--){
-                        childGenome[i]=thisGenome[i];
-                    }
                     for (int i=0; i<numberOfOtherGenes; i++){
-                        childGenome[i] = otherGenome[i];
+                        childGenome.add(i, otherGenome.get(i));
+                    }
+                    for (int i = numberOfOtherGenes; i < this.genotypeLength; i++){
+                        childGenome.add(i, thisGenome.get(i));
                     }
                 }
             };
-            child.genotype = new Genes(childGenome, genotypeLength);
+            child.genotype = new Genes(childGenome, this.genotypeLength);
             return child;
         }
         return null;

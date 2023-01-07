@@ -1,24 +1,27 @@
 package evolutionGame.mapElements;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Genes {
     private int numberOfGenes;
     private int currentGeneIndex = 0;
-    private int[] genes;
+    private ArrayList<Integer> genes;
     private Random rand = new Random();
 
     public Genes(int howManyGenes){
         numberOfGenes = howManyGenes;
-        genes = new int[numberOfGenes];
+        genes = new ArrayList<>(numberOfGenes);
         for (int i = 0; i < numberOfGenes; i++){
-            genes[i] = rand.nextInt(8);
+            genes.add(rand.nextInt(8));
         }
     }
 
-    public Genes(int[] genotype, int numberOfGenes){
+    public Genes(ArrayList<Integer> genotype, int numberOfGenes){
         this.numberOfGenes = numberOfGenes;
-        this.genes = genotype;
+        this.genes = (ArrayList<Integer>) genotype.clone();
+        System.out.println("stworzono dziecko o genomie: " + genes.toString());
     }
 
     public int getCurrentGene(String moveVariant){
@@ -34,13 +37,13 @@ public class Genes {
             default -> throw new IllegalArgumentException("Wrong move Variant");
         }
         int currentGene;
-        currentGene = genes[currentGeneIndex];
+        currentGene = genes.get(currentGeneIndex);
         currentGeneIndex = (currentGeneIndex + 1) % numberOfGenes;
         System.out.println(currentGene + " index: " + currentGeneIndex );
         return currentGene;
     }
 
-    public int[] getGenes() {
+    public ArrayList<Integer> getGenes() {
         return genes;
     }
 }
