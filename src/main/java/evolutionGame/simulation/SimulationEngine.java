@@ -9,7 +9,7 @@ import evolutionGame.mapTypes.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationEngine implements  Runnable{
+public class SimulationEngine extends Thread{
 
     private int mapHeight; //wysokosc mapy
     private int mapWidth; //szerokość mapy

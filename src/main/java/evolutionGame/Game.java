@@ -1,6 +1,6 @@
 package evolutionGame;
 
-import evolutionGame.gui.App;
+import evolutionGame.Controllers.WelcomeScene;
 import javafx.application.Application;
 
 public class Game {
@@ -11,6 +11,6 @@ public class Game {
 //                    10, "Predestination", "Equators");
 //            Thread engineThread = new Thread(engine);
 //            engineThread.start();
-        Application.launch(App.class);
+        Application.launch(WelcomeScene.class);
     }
 }
