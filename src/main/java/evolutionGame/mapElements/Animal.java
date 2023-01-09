@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-public class Animal {
+public class Animal extends AbstractWorldMapElement {
     private Random rand = new Random();
 
     private MapDirections currentDirection = MapDirections.values()[rand.nextInt(8)];; //orientacja na mapie
@@ -107,6 +107,11 @@ public class Animal {
 
     public MapDirections getCurrentDirection(){
         return currentDirection;
+    }
+
+    @Override
+    public String getGraphicalRepresentation() {
+        return "src/main/resources/up.png";
     }
 
     public Vector2D getPosition() {

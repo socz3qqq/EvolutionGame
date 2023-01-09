@@ -1,9 +1,12 @@
 package evolutionGame.simulation;
 
+import evolutionGame.IPositionChangeObserver;
+import evolutionGame.ISimulationDayObserver;
 import evolutionGame.mapElements.Animal;
 import evolutionGame.mapElements.Vector2D;
 import evolutionGame.mapTypes.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationEngine implements  Runnable{
@@ -26,6 +29,8 @@ public class SimulationEngine implements  Runnable{
     private String geneExecution; //wariant zachowania (predestynacja | nieco szalenstwa)
     private int currentDayOfSimulation; // aktualny dzień symulacji
     private final String grassGrowType; //wariant mapy (rowniki | trupy)
+    private int moveDelay;
+    private ISimulationDayObserver simulationDayObserver;
 
 
     public SimulationEngine(int mapHeight, int mapWidth, String cornerBehaviour, int initialGrassNumber, int energyFromGrass, int dailyGrassIncrease, int initialAnimalNumber,
@@ -49,6 +54,7 @@ public class SimulationEngine implements  Runnable{
         this.geneExecution = geneExecution; //wariant zachowania (predestynacja | nieco szalenstwa)
         this.grassGrowType = grassGrowType; //wariant mapy (rowniki | trupy)
         this.currentDayOfSimulation = 0;
+        this.moveDelay = 10000;
         switch(grassGrowType){
             case "Equators" -> this.map = new Equators(this.mapWidth, this.mapHeight, this.energyFromGrass);
             case "ToxicCorpses" -> this.map = new ToxicCorpses(this.mapWidth, this.mapHeight, this.energyFromGrass);
@@ -65,14 +71,18 @@ public class SimulationEngine implements  Runnable{
             this.map.animalReproduction(currentDayOfSimulation);
             this.map.grassGrow(dailyGrassIncrease);
             showCurrentSimulationStatus();
+            endOfTheDay();
             try {
-                Thread.sleep(50);
+                Thread.sleep(moveDelay);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
 
     };
+    public void endOfTheDay(){
+        simulationDayObserver.nextDay();
+    }
 
     private void prepareMap(){
         placeAllAnimals(this.initialAnimalNumber);
@@ -104,5 +114,15 @@ public class SimulationEngine implements  Runnable{
         System.out.println(this.map.toString());
 
 
+    }
+
+    public AbstractWorldMap getMap(){
+        return this.map;
+    }
+    public void setMoveDelay(int delay){
+        this.moveDelay = delay;
+    }
+    public void addObserver(ISimulationDayObserver observer){
+        this.simulationDayObserver = observer;
     }
 }

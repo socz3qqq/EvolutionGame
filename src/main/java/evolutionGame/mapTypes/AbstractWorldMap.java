@@ -5,16 +5,15 @@
 
 package evolutionGame.mapTypes;
 
-import evolutionGame.IPositionChangeObserver;
+import evolutionGame.animalChallengerComparator;
 import evolutionGame.mapElements.Animal;
 import evolutionGame.mapElements.Grass;
 import evolutionGame.mapElements.Vector2D;
-import evolutionGame.animalChallengerComparator;
 
 import java.util.*;
 
 
-abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
+abstract public class AbstractWorldMap implements IWorldMap {
     protected final Random rand = new Random();
     protected int mapWidth;
     protected int mapHeight;
@@ -205,10 +204,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     }
 // trzeba tego obserwera zaimplementować
-    @Override
-    public void positionChanged(Vector2D oldPosition, Vector2D newPosition){
-
-    }
     public boolean areThereAnyAnimalsLeft(){
         return !this.animals.isEmpty();
     }
@@ -250,5 +245,8 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         }
         return lifeTimeSum/deadAnimals.size();
     }
+
+    public Vector2D getUpperBound(){ return this.upperBound;}
+    public Vector2D getLowerBound(){return this.lowerBound;}
 
 }
