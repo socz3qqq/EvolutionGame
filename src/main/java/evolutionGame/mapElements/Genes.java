@@ -46,4 +46,7 @@ public class Genes {
     public ArrayList<Integer> getGenes() {
         return genes;
     }
+    public int getActivatedGene(){
+        return this.genes.get(currentGeneIndex);
+    }
 }

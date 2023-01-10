@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<class>
+	<config>
+		<height>1</height>
+		<width>1</width>
+		<map>1</map>
+		<startGrass>1</startGrass>
+		<grassEnergy>1</grassEnergy>
+		<grassGain>1</grassGain>
+		<startAnimals>1</startAnimals>
+		<startEnergy>1</startEnergy>
+		<whenFull>1</whenFull>
+		<energyCopulate>1</energyCopulate>
+		<minMutation>1</minMutation>
+		<maxMutation>1</maxMutation>
+		<mutation>1</mutation>
+		<genotypeLength>1</genotypeLength>
+		<genes>1</genes>
+	</config>
+
+	<config>
+		<height>2</height>
+		<width>2</width>
+		<map>2</map>
+		<startGrass>2</startGrass>
+		<grassEnergy>2</grassEnergy>
+		<grassGain>2</grassGain>
+		<startAnimals>2</startAnimals>
+		<startEnergy>2</startEnergy>
+		<whenFull>2</whenFull>
+		<energyCopulate>2</energyCopulate>
+		<minMutation>2</minMutation>
+		<maxMutation>2</maxMutation>
+		<mutation>2</mutation>
+		<genotypeLength>2</genotypeLength>
+		<genes>2</genes>
+	</config>
+
+	<config>
+		<height>3</height>
+		<width>3</width>
+		<map>3</map>
+		<startGrass>3</startGrass>
+		<grassEnergy>3</grassEnergy>
+		<grassGain>3</grassGain>
+		<startAnimals>3</startAnimals>
+		<startEnergy>3</startEnergy>
+		<whenFull>3</whenFull>
+		<energyCopulate>3</energyCopulate>
+		<minMutation>3</minMutation>
+		<maxMutation>3</maxMutation>
+		<mutation>3</mutation>
+		<genotypeLength>3</genotypeLength>
+		<genes>3</genes>
+	</config>
+</class>
