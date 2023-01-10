@@ -24,3 +24,11 @@ javafx {
     version = "19"
     modules = ['javafx.controls', 'javafx.fxml']
 }
+
+sourceSets{
+    main{
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}

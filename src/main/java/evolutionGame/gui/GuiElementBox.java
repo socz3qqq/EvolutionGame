@@ -21,11 +21,12 @@ public class GuiElementBox {
             try {
                 image = new Image(new FileInputStream(mapElement.getGraphicalRepresentation()));
                 imageView = new ImageView(image);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                animalPositionLabel = new Label(mapElement.getPosition().toString());
-
-                vBox = new VBox(imageView, animalPositionLabel);
+                vBox = new VBox();
+                imageView.setFitHeight(25);
+                imageView.setFitWidth(25);
+//                imageView.fitHeightProperty().bind(vBox.heightProperty());
+//                imageView.fitWidthProperty().bind(vBox.widthProperty());
+                vBox.getChildren().add(imageView);
                 vBox.setAlignment(Pos.CENTER);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);

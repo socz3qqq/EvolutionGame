@@ -24,6 +24,5 @@ public class TestAnimal {
                 return false;
             }
         };
-        Animal zwierze1 = new Animal()
     }
 }

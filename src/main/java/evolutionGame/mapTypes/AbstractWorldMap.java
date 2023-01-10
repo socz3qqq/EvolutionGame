@@ -5,7 +5,7 @@
 
 package evolutionGame.mapTypes;
 
-import evolutionGame.IPositionChangeObserver;
+import evolutionGame.animalChallengerComparator;
 import evolutionGame.mapElements.Animal;
 import evolutionGame.mapElements.Grass;
 import evolutionGame.mapElements.Vector2D;
@@ -14,7 +14,7 @@ import evolutionGame.animalChallengerComparator;
 import java.util.*;
 
 
-abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
+abstract public class AbstractWorldMap implements IWorldMap {
     protected final Random rand = new Random();
     protected int mapWidth;
     protected int mapHeight;
@@ -26,6 +26,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected HashMap<Vector2D, List<Animal>> animals = new HashMap<>();
     protected HashMap<Vector2D, Grass> grass = new HashMap<>();
     protected MapVisualizer mapVisualizer;
+    protected HashMap<ArrayList<Integer>, Integer> mostPopularGenotype = new HashMap<>();
 
     public AbstractWorldMap(int energyFromGrass){
         this.mapVisualizer = new MapVisualizer(this);
@@ -56,6 +57,15 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
             this.animals.put(animal.getPosition(), newAnimals);
         }
         this.animalCount += 1;
+
+        //aktualizacja najpopularniejszego genotypu
+        if (mostPopularGenotype.containsKey(animal.getGenotype().getGenes())){
+            int curr = mostPopularGenotype.get(animal.getGenotype().getGenes());
+            mostPopularGenotype.remove(animal.getGenotype().getGenes());
+            mostPopularGenotype.put(animal.getGenotype().getGenes(), curr + 1);
+        }else {
+            mostPopularGenotype.put(animal.getGenotype().getGenes(), 1);
+        }
     }
     public void placeGrass() {
         Grass grass = new Grass(this, getGrassPosition());
@@ -81,6 +91,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         }
         for(Animal being : currentAnimals){
             if (being.getEnergy() <= 0) {
+                being.die();
                 System.out.println(being);
                 removeAnimal(being);
             }
@@ -130,6 +141,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
             Animal winner = challengerList.get(0);
 //          the animal eats grass, and increases his energy
             winner.increaseEnergy(this.energyFromGrass);
+            winner.eatGrass();
             removeGrass(grassPosition);
             System.out.println("grass was eaten! grass position: " + grassPosition);
         }
@@ -137,7 +149,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     abstract public void removeGrass(Vector2D position);
     public Vector2D adjustMoveCoordinates(Animal animal, Vector2D position, String cornerBehaviour) {
         switch (cornerBehaviour) {
-            case "DevilishPost" -> {
+            case "DevilishPortal" -> {
                 if (!position.follows(lowerBound) || !position.precedes(upperBound)) {
                     //            trzeba wybrać ile ma się zmieniać ta energia
                     animal.decreaseEnergy(10);
@@ -205,10 +217,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     }
 // trzeba tego obserwera zaimplementować
-    @Override
-    public void positionChanged(Vector2D oldPosition, Vector2D newPosition){
-
-    }
     public boolean areThereAnyAnimalsLeft(){
         return !this.animals.isEmpty();
     }
@@ -240,7 +248,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
             }
 
         }
-        return allEnergy/this.animalCount;
+        return this.animalCount == 0? 0 : allEnergy/animalCount;
     }
     public int getAverageLifeTime(){
         if(deadAnimals.isEmpty()) return 0;
@@ -251,4 +259,21 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return lifeTimeSum/deadAnimals.size();
     }
 
+    public Vector2D getUpperBound(){ return this.upperBound;}
+    public Vector2D getLowerBound(){return this.lowerBound;}
+
+
+    public ArrayList<Integer> getMostPopularGenotype(){
+        ArrayList<Integer> res = new ArrayList<>();
+        if (!mostPopularGenotype.isEmpty()) {
+            int max = Collections.max(mostPopularGenotype.values());
+            for (Map.Entry<ArrayList<Integer>, Integer> entry : mostPopularGenotype.entrySet()) {
+                if (entry.getValue() == max) {
+                    res = entry.getKey();
+                    return res;
+                }
+            }
+        }
+        return res;
+    }
 }

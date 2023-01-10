@@ -1,13 +1,10 @@
 package evolutionGame.simulation;
 
+import evolutionGame.observers.ISimulationDayObserver;
 import evolutionGame.mapElements.Animal;
-import evolutionGame.mapElements.Vector2D;
 import evolutionGame.mapTypes.*;
 
-import java.util.List;
-
-public class SimulationEngine implements  Runnable{
-
+public class SimulationEngine extends Thread{
     private int mapHeight; //wysokosc mapy
     private int mapWidth; //szerokość mapy
     private String cornerBehaviour; //wariant ruchu na granicach (kula ziemska | piekielny portal)
@@ -26,6 +23,10 @@ public class SimulationEngine implements  Runnable{
     private String geneExecution; //wariant zachowania (predestynacja | nieco szalenstwa)
     private int currentDayOfSimulation; // aktualny dzień symulacji
     private final String grassGrowType; //wariant mapy (rowniki | trupy)
+    private int moveDelay;
+    private ISimulationDayObserver simulationDayObserver;
+    private boolean simulationRunning; // true - running, false - not running
+    private boolean simulationEnded;
 
 
     public SimulationEngine(int mapHeight, int mapWidth, String cornerBehaviour, int initialGrassNumber, int energyFromGrass, int dailyGrassIncrease, int initialAnimalNumber,
@@ -48,6 +49,8 @@ public class SimulationEngine implements  Runnable{
         this.genotypeLength = genotypeLength; //dlugosc genomu
         this.geneExecution = geneExecution; //wariant zachowania (predestynacja | nieco szalenstwa)
         this.grassGrowType = grassGrowType; //wariant mapy (rowniki | trupy)
+        this.simulationRunning = true;
+        this.simulationEnded = false;
         this.currentDayOfSimulation = 0;
         switch(grassGrowType){
             case "Equators" -> this.map = new Equators(this.mapWidth, this.mapHeight, this.energyFromGrass);
@@ -58,21 +61,34 @@ public class SimulationEngine implements  Runnable{
 
     public void run(){
         prepareMap();
-        while(this.map.areThereAnyAnimalsLeft()) {
-            this.map.removeDeadAnimals();
-            this.map.moveAllAnimals(geneExecution, this.cornerBehaviour);
-            this.map.eatGrass();
-            this.map.animalReproduction(currentDayOfSimulation);
-            this.map.grassGrow(dailyGrassIncrease);
-            showCurrentSimulationStatus();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        while(this.map.areThereAnyAnimalsLeft() && !simulationEnded) {
+            if(this.simulationRunning) {
+                this.map.removeDeadAnimals();
+                this.map.moveAllAnimals(geneExecution, this.cornerBehaviour);
+                this.map.eatGrass();
+                this.map.animalReproduction(currentDayOfSimulation);
+                this.map.grassGrow(dailyGrassIncrease);
+                showCurrentSimulationStatus();
+                endOfTheDay();
+                try {
+                    Thread.sleep(moveDelay);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else{
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
-
+        endOfTheDay();
     };
+    public void endOfTheDay(){
+        simulationDayObserver.nextDay();
+    }
 
     private void prepareMap(){
         placeAllAnimals(this.initialAnimalNumber);
@@ -105,4 +121,16 @@ public class SimulationEngine implements  Runnable{
 
 
     }
+    public AbstractWorldMap getMap(){
+        return this.map;
+    }
+    public void setMoveDelay(int delay){
+        this.moveDelay = delay;
+    }
+    public void addObserver(ISimulationDayObserver observer){
+        this.simulationDayObserver = observer;
+    }
+
+    public void setSimulationState(boolean state){ this.simulationRunning = state;}
+    public void endSiumlation(boolean end){simulationEnded = end;};
 }

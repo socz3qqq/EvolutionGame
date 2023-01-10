@@ -1,13 +1,14 @@
 package evolutionGame.mapElements;
 
+import evolutionGame.observers.IAnimalObserver;
+import evolutionGame.observers.ISimulationDayObserver;
 import evolutionGame.mapTypes.AbstractWorldMap;
-import evolutionGame.mapTypes.IWorldMap;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
 import java.util.Random;
 
-public class Animal {
+public class Animal extends AbstractWorldMapElement  implements ISimulationDayObserver {
     private Random rand = new Random();
 
     private MapDirections currentDirection = MapDirections.values()[rand.nextInt(8)];; //orientacja na mapie
@@ -26,7 +27,8 @@ public class Animal {
     private int minChildMutation; //min liczba mutacji
     private int maxChildMutation; //max liczba mutacji
     private int genotypeLength; //dlugosc genomu
-
+    private IAnimalObserver animalStatisticsObserver;
+    private int eatenGrassCount; // ilość zjedzonej trawy
 
     //    jeśli nie podamy pozycji zwierzaka, to pojawi się w losowym miejscu
     public Animal(AbstractWorldMap map, int genotypeLength, int initialEnergy, int minimalStuffedEnergy, int energyUsedForReproduction, int minChildMutation, int maxChildMutation){
@@ -39,6 +41,9 @@ public class Animal {
         this.minChildMutation = minChildMutation;
         this.maxChildMutation = maxChildMutation;
         this.genotypeLength = genotypeLength;
+
+        this.animalStatisticsObserver = null;
+
     }
 
     //szkielet Animala do tworzenia dziecka
@@ -46,6 +51,8 @@ public class Animal {
         this.map = map;
         this.position = position;
         this.dayOfBirth = dayOfBirth;
+
+        this.animalStatisticsObserver = null;
     }
 
     public Animal copulate(Animal other, int currentDayOfSimulation){
@@ -94,6 +101,15 @@ public class Animal {
                     }
                 }
             };
+            randomness = minChildMutation;
+            if (minChildMutation < maxChildMutation){
+                randomness = rand.nextInt(this.minChildMutation, this.maxChildMutation);
+            }
+            for (int i=0; i < randomness; i++){
+                int pos = rand.nextInt(this.genotypeLength);
+                int val = rand.nextInt(8);
+                childGenome.set(pos, val);
+            }
             child.genotype = new Genes(childGenome, this.genotypeLength);
             return child;
         }
@@ -107,6 +123,11 @@ public class Animal {
 
     public MapDirections getCurrentDirection(){
         return currentDirection;
+    }
+
+    @Override
+    public String getGraphicalRepresentation() {
+        return "src/main/resources/unicorn.png";
     }
 
     public Vector2D getPosition() {
@@ -150,5 +171,36 @@ public class Animal {
 
     public Genes getGenotype() {
         return genotype;
+    }
+
+    @Override
+    public void nextDay() {
+        if(animalStatisticsObserver != null) animalStatisticsObserver.updateAnimalInfo(this);
+    }
+    public void addObserver(IAnimalObserver observer){
+        this.animalStatisticsObserver = observer;
+    }
+    public void removeObserver(IAnimalObserver observer){
+        this.animalStatisticsObserver = null;
+    }
+
+    public int getActivatedGene() {
+        return this.genotype.getActivatedGene();
+    }
+
+    public int getEatenGrassCount() {
+        return this.eatenGrassCount;
+    }
+
+    public void eatGrass() {
+        this.eatenGrassCount += 1;
+    }
+
+    public int getDayOfDeath() {
+        return this.dayofDeath;
+    }
+
+    public void die() {
+        dayofDeath = dayOfBirth + age;
     }
 }

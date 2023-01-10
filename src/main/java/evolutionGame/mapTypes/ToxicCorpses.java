@@ -31,7 +31,6 @@ public class ToxicCorpses extends AbstractWorldMap {
     public Vector2D getGrassPosition() {
         return new Vector2D(rand.nextInt(mapWidth), rand.nextInt(mapHeight));
     }
-
     public void prepareGrassPositions(){
         for (int x = 0; x < this.mapWidth; x++) {
             for(int y = 0; y < this.mapHeight; y++) {
