@@ -5,7 +5,6 @@ import evolutionGame.mapElements.Animal;
 import evolutionGame.mapTypes.*;
 
 public class SimulationEngine extends Thread{
-
     private int mapHeight; //wysokosc mapy
     private int mapWidth; //szerokość mapy
     private String cornerBehaviour; //wariant ruchu na granicach (kula ziemska | piekielny portal)
@@ -122,7 +121,6 @@ public class SimulationEngine extends Thread{
 
 
     }
-
     public AbstractWorldMap getMap(){
         return this.map;
     }

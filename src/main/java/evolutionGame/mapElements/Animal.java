@@ -5,6 +5,7 @@ import evolutionGame.observers.ISimulationDayObserver;
 import evolutionGame.mapTypes.AbstractWorldMap;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 
 public class Animal extends AbstractWorldMapElement  implements ISimulationDayObserver {
@@ -40,7 +41,9 @@ public class Animal extends AbstractWorldMapElement  implements ISimulationDayOb
         this.minChildMutation = minChildMutation;
         this.maxChildMutation = maxChildMutation;
         this.genotypeLength = genotypeLength;
+
         this.animalStatisticsObserver = null;
+
     }
 
     //szkielet Animala do tworzenia dziecka
@@ -48,6 +51,7 @@ public class Animal extends AbstractWorldMapElement  implements ISimulationDayOb
         this.map = map;
         this.position = position;
         this.dayOfBirth = dayOfBirth;
+
         this.animalStatisticsObserver = null;
     }
 

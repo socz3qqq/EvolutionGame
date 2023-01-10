@@ -9,6 +9,7 @@ import evolutionGame.animalChallengerComparator;
 import evolutionGame.mapElements.Animal;
 import evolutionGame.mapElements.Grass;
 import evolutionGame.mapElements.Vector2D;
+import evolutionGame.animalChallengerComparator;
 
 import java.util.*;
 
@@ -65,7 +66,6 @@ abstract public class AbstractWorldMap implements IWorldMap {
         }else {
             mostPopularGenotype.put(animal.getGenotype().getGenes(), 1);
         }
-
     }
     public void placeGrass() {
         Grass grass = new Grass(this, getGrassPosition());
